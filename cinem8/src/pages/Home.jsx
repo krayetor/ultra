@@ -1,73 +1,75 @@
 import React from "react";
 import LandingSearch from "../components/LandingSearch";
+import MovieCard from "../components/MovieCard";
+import SkeletonCard from "../components/SkeletonCard";
 
 // receives the global state and handlers from app.jsx
-const Home = ({ movies, loading, error, searchTerm, setSearchTerm, onSearch }) => {
+const Home = ({ movies, loading, error, searchTerm, setSearchTerm, onSearch, onMovieSelect }) => {
 
     // determine to show the full landing page layout
-    const showLandinPage = !searchTerm && movies.length === 0 && !loading && !error;
+    const showLandingPage = !searchTerm && movies.length === 0 && !loading && !error;
 
     // landing page view
-    if (showLandinPage) {
+    if (showLandingPage) {
         return (
-            <div className="flex flex-col items-center justify-center min-h[calc(100vh-180px)] p-4">
+            <div className="flex flex-col gap-6 items-center justify-center min-h-[80vh] w-full px-4 text-center">
 
-                {/* main title */}
-                <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-gray-900 dark:text-white transition-colors durations-300">
-                    Welcome to cinem8
-                </h1>
-
-                {/* central search bar input */}
-                <LandingSearch
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    onSearch={onSearch}
-                />
-
-                <p className="mt-6 text-gray-600 dark:text-gray-400">
-                    Search movies, actors, or keywords to get started!
-                </p>
+                <div className="space-y-6 mb-12 max-w-3xl">
+                    <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-3">
+                        Welcome to <span className="text-transparent bg-clip-text bg-linear-to-r from-violet-600 to-rose-600">Cinem8</span>
+                    </h1>
+                    <p className="text-slate-600 dark:text-slate-400 text-lg md:text-xl font-light">
+                        Explore the cinematic universe. Search for your favorite movies instantly.
+                    </p>
+                </div>
+                
+                {/* using local state search search components here */}
+                <div className="w-full max-w-xl">
+                    <LandingSearch onSearch={onSearch} />
+                </div>
             </div>
         );
-    };
+    }
 
 
     // dashboard / search results view
     return (
-        <div className="py-4">
-
-            {/* loading state */}
-            {loading && <p className="text-center text-blue-500 mt-8">Loading movies...</p>}
-
+        <div className="py-8 w-full items-center justify-center">
             {/* error state */}
-            {error && <div className="text-center text-red-500 mt-8 p-4 bg-red-100 dark:bg-red-900 rounded-lg">{error}</div>}
+            {error && (
+                <div className="text-center text-rose-500 mt-8 p-4 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl">
+                    {error}
+                </div>
+            )}
 
-            {/* movie list */}
-            {movies.length > 0 &&
-                <>
-                    <h2 className="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                        Results for: "{searchTerm}"
-                    </h2>
-                    
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
+            {/* results title */}
+            {(loading || movies.length > 0) && (
+                <h2 className="pb-5 text-2xl font-semibold m-b text-slate-800 dark:text-slate-100 text-center md:text-left">
+                    {loading ? `Searching for "${searchTerm}"...` : `Results for: "${searchTerm}"`}
+                </h2>
+            )}
 
-                        {movies.map((movie) => (
+            {/* grid layout */}
+            <div className="flex flex-wrap gap-8 justify-center w-full">
+                
+                {/* skelton while loading */}
+                {loading && (
+                    [...Array(8)].map((_, index) => <SkeletonCard key={index} />)
+                )}
 
-                            <div key={movie.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 transition-transform hover:scale-[1.02]">
-                                <img
-                                    src={movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : 'placeholder_url'}
-                                    alt={`${movie.title} Poster`}
-                                    className="w-full h-auto rounded-lg mb-2 object-cover"
-                                />
-                                <h3 className="text-sm font-semibold truncate text-gray-900 dark:text-white">{movie.title}</h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Year: {movie.release_date ? movie.release_date.substring(0, 4) : 'N/A'}</p>
-                            </div>
-                        ))}
-
-                    </div>
-                </>
-            }
-
+                {/* actual movies */}
+                {!loading && movies.length > 0 && movies.map((movie) => (
+                    <MovieCard
+                        key={movie.id}
+                        movie={movie}
+                        onCardClick={onMovieSelect}
+                        onFavoriteToggle={() => {
+                            console.log('Toggle Favorite', movie.id);
+                            alert(`You added ${movie.title} to your favorites`);
+                        }}
+                    />
+                ))}
+            </div>
         </div>
     );
 };

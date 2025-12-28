@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Routes, Route, useSearchParams } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/next";
 import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -198,6 +199,9 @@ function App() {
             <p className="p-8 text-center">Loading details...</p>
           )}
         </Modal>
+
+        <Analytics />
+      
       </div>
     </FavoriteProvider>
   );

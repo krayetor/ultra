@@ -141,7 +141,7 @@ const MovieDetails = () => {
                 <div className="flex flex-col items-center lg:flex-row lg:items-start gap-8">
 
                     {/* left: Poster section */}
-                    <div className="relative w-[550px] h-[400px] shrink-0">
+                    <div className="relative w-[400px] h-[400px] shrink-0">
                         <div className="aspect-2/3 w-full h-full rounded-2xl overflow-hidden bg-slate-200 dark:bg-slate-800 shadow-2xl">
                             <ImageWithFallback
                                 src={movie.poster_path ? `https://image.tmdb.org/t/p/w780${movie.poster_path}` : null}

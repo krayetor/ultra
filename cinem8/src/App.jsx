@@ -9,10 +9,11 @@ import Modal from "./components/Modal";
 import { FavoriteProvider } from "./context/FavoritesContext";
 import AboutPage from "./pages/AboutPage";
 import FavoritePage from "./pages/FavoritePage";
-// import MovieDetails from "./pages/MovieDetails";
+import MovieDetails from "./pages/MovieDetails";
 import NotFound404 from "./pages/NotFound404";
 import "./index.css";
 import "./App.css"
+import ImageWithFallback from "./components/ImageWithFallback";
 
 function App() {
 
@@ -22,6 +23,9 @@ function App() {
 
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+
+  const [hasSearched, setHasSearched] = useState(!!initialSearchTerm);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +60,6 @@ function App() {
         setMovies(results);
       } else {
         setMovies([]);
-        setError("No movies found matching your search.");
       }
     } catch (err) {
       console.error("Fetch error:", err);
@@ -68,12 +71,11 @@ function App() {
       
   }, [API_KEY]); // dependency on API_KEY
 
-  // persistence handlers
-
   // effect to run initial search if 'q' is in the URL 
   useEffect(() => {
     if (initialSearchTerm) {
       searchMovies(initialSearchTerm);
+      setHasSearched(true);
     }
   }, [searchMovies, initialSearchTerm]);
 
@@ -84,10 +86,12 @@ function App() {
     // update url query parameter
     if (term.trim()) {
       setSearchParams({ q: term });
+      setHasSearched(term);
       searchMovies(term);
     } else {
       setSearchParams({}); // clear query param if search is empty
       setMovies([]);
+      setSearchTerm(false);
     }
   };
 
@@ -100,6 +104,7 @@ function App() {
   const getModalImage = (movie) => {
     if (movie.backdrop_path) return `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`;
     if (movie.poster_path) return `https://image.tmdb.org/t/p/w780${movie.poster_path}`;
+    return null;
   }
 
   // render structure
@@ -115,25 +120,31 @@ function App() {
           toggleTheme={toggleTheme}
         />
 
-        <main className="w-full max-w-7xl mx-auto px-4 py-8 grow">
-          <Routes>
-            <Route path="/" element={
-              <Home
-                movies={movies}
-                loading={loading}
-                error={error}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                onSearch={handleSearch}
-                onMovieSelect={handleCardClick}
-              />
-            } />
+        <main className="w-full max-w-7xl max-width-[1000px] mx-auto px-8 py-8 pt-24 grow flex-col items-center">
+          <div className="w-full">
+            <Routes>
+              <Route path="/" element={
+                <Home
+                  movies={movies}
+                  loading={loading}
+                  error={error}
+                  searchTerm={searchTerm}
+                  hasSearched={hasSearched}
+                  setSearchTerm={setSearchTerm}
+                  onSearch={handleSearch}
+                  onMovieSelect={handleCardClick}
+                />
+              } />
 
-            {/* dedicated routes */}
-            <Route path="/favorites" element={<FavoritePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="*" element={<NotFound404 />} />
-          </Routes>
+              {/* dedicated routes */}
+              <Route path="/favorites" element={<FavoritePage onMovieSelect={handleCardClick} />} />
+              <Route path="/about" element={<AboutPage />} />
+            
+              <Route path="/movie/:id" element={<MovieDetails />} />
+
+              <Route path="*" element={<NotFound404 />} />
+            </Routes>
+          </div>
         </main>
 
         <Footer />
@@ -142,13 +153,13 @@ function App() {
         <Modal
           isOpen={isModalOpen}
           onclose={() => setIsModalOpen(false)}
-          title={selectedMovie ? selectedMovie.title : "Movie Details"}
+          selectedMovie={selectedMovie}
         >
         {selectedMovie ? (
             <div className="space-y-6">
               {/* details for view */}
               <div className="relative h-70 w-full rounded-xl overflow-hidden shadow-lg bg-slate-200 dark:bg-slate-800">
-                <img
+                <ImageWithFallback
                   src={getModalImage(selectedMovie)}
                   alt={searchMovies.title}
                   className="w-full h-full object-cover"

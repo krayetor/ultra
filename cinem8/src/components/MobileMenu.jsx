@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useTypewriter from "../hooks/useTypewriter";
 
 const MobileMenu = ({ isOpen, onClose, isDarkMode, toggleTheme, searchTerm, setSearchTerm, onSearch }) => {
 
@@ -16,26 +17,26 @@ const MobileMenu = ({ isOpen, onClose, isDarkMode, toggleTheme, searchTerm, setS
     <>
         {/* backdrop */}
         <div 
-            className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-90 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-90 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             onClick={onClose}
         />
 
         {/* sidebar */}
         <div
-            className={`fixed top-0 right-0 h-full w-[85%] max-w-sm shadow-2xl z-100 transform transition-transform duration-300 ease-out
-                ${isOpen ? 'translate-x-0' : 'translate-x-full'}
+            className={`fixed top-24 left-1/2 -translate-1/2 w-[90%] max-w-sm bg-white dark:bg-slate-900 rounded-[30px] shadow-2xl z-100 overflow-hidden border border-gray-100 dark:border-slate-800 transition-all duration-300 ease-out origin-top
+                ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'}
                 bg-white dark:bg-slate-900 border-l border-gray-200 dark:border-slate-800`}
         >
-            <div className="gap-4 p-6 flex flex-col h-full">
+            <div className="gap-4 p-6 flex flex-col space-y-6">
 
                 {/* header of menu */}
                 <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">
-                    <span className="text-xl font-bold text-slate dark:text-white">
+                    <span className="text-lg font-bold tracking-widest uppercase text-slate dark:text-white">
                         Menu
                     </span>
                     <button 
                         onClick={onClose} 
-                        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-500 hover:bg-rose-50 dark:hover:text-rose-400 dark:hover:bg-slate-700 transition-all"
+                        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-500 hover:bg-rose-50 dark:hover:text-rose-400 dark:hover:bg-slate-700 transition-colors"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -43,22 +44,20 @@ const MobileMenu = ({ isOpen, onClose, isDarkMode, toggleTheme, searchTerm, setS
                     </button>
                 </div>
 
-                {/* fix: mobile search bar */}
-                <div className="mb-8">
-                    <div className="flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl px-4 py-3 ring-1 ring-transparent focus-within:ring-violet-600 transition-all">
-                        <input
-                            type="text"
-                            className="bg-transparent w-full outline-none text-slate-900 dark:text-white placeholder-slate-500 text-base"
-                            placeholder="Find movies..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                        />
+                {/* mobile search bar */}
+                <div className="placeholder-slate-500 text-sm font-medium mb-8 flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl px-4 py-3 ring-1 ring-transparent focus-within:ring-violet-600 transition-all">
+                    <input
+                        type="text"
+                        className="bg-transparent w-full outline-none text-slate-900 dark:text-white placeholder-slate-500 text-base"
+                        placeholder={useTypewriter(['Search movies...', 'Search actors...','Search genres...', 'Search keywords...'])}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
 
-                        <button onClick={handleSearchSubmit} className="text-violet-600 ml-2">
-                            🔍
-                        </button>
-                    </div>
+                    <button onClick={handleSearchSubmit} className="text-violet-600 ml-2">
+                        🔍
+                    </button>
                 </div>
 
                 <nav className="flex flex-col space-y-4">

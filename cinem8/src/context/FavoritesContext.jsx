@@ -35,9 +35,16 @@ export const FavoriteProvider = ({ children }) => {
 
     const toggleFavorite = (movie) => {
         if (isFavorite(movie.id)) {
-            removeFromFavorites(movie.id);
+            const confirmRemove = window.confirm(`Are you sure you want to remove "${movie.id}" (ID: ${movie.id}) from favorites?`);
+
+            if (confirmRemove) {
+                removeFromFavorites(movie.id);
+                console.log(`Removed movie ${movie.id} from feavorites`);
+            }
         } else {
             addToFavorites(movie);
+            console.log(`You have added movie ${movie.id} to favorites!`);
+            alert(`You have added movie ${movie.id} to favorites!`);
         }
     };
 

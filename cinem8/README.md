@@ -1,16 +1,95 @@
-# React + Vite
+# Cinem8 🎬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Cinem8 Banner](public/og-image.jpg)
 
-Currently, two official plugins are available:
+> **Your Instant Cinema Mate.**
+> A sleek, high-performance movie database built for speed and aesthetics.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 
-## React Compiler
+## 🚀 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**[View Live Demo](https://krayetor-cinem8.vercel.app/)**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## About The Project
+
+**Cinem8** is a modern web application designed to be the fastest way to find comprehensive details about movies. Built as a Capstone Project for the **ALX Frontend Web Development Program**, the application prioritizes speed, data persistence, and a highly polished user interface over unnecessary clutter.
+
+It leverages the **TMDB API** to provide real-time access to millions of movies, cast details, and trailers.
+
+### Key Features
+
+* **Instant Search:** Real-time search functionality with a typewriter effect on the landing page.
+* **Dark/Light Mode:** Fully responsive theme toggling with local storage persistence.
+* **Favorites System:** Add movies to your personal collection. Data persists even after closing the browser.
+* **Deep Persistence:** Search terms are synced with the URL, allowing you to share search results via links.
+* **Fully Responsive:** Optimized layouts for Mobile, Tablet, and Desktop screens.
+* **Smart UI:** Features skeleton loading states, fallback images, and dual-layered hover animations.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | React 18 (Vite) | Component-based UI architecture |
+| **Styling** | Tailwind CSS | Utility-first styling & responsiveness |
+| **Routing** | React Router DOM | Client-side routing & URL parameters |
+| **State** | React Context API | Managing Global Favorites state |
+| **Data** | Axios | Handling API requests |
+| **API** | TMDB API | Source of movie data |
+
+---
+
+## Getting Started
+
+Follow these steps to set up the project locally on your machine.
+
+### Prerequisites
+
+* Node.js (v14 or higher)
+* npm or yarn
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/krayetor/cinem8.git](https://github.com/krayetor/cinem8.git)
+    cd cinem8
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Setup Environment Variables**
+    * Create a `.env` file in the root directory.
+    * Get your API Key from [The Movie Database (TMDB)](https://www.themoviedb.org/).
+    * Add the key to your file:
+    ```env
+    VITE_TMDB_API_KEY=your_api_key_here
+    ```
+
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+
+5.  Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## Project Structure
+
+```text
+src/
+├── components/      # Reusable UI components (Header, MovieCard, Skeleton)
+├── context/         # Global state (FavoritesContext)
+├── hooks/           # Custom hooks (useTypewriter)
+├── pages/           # Main views (Home, About, Favorites, MovieDetails)
+└── main.jsx         # Entry point

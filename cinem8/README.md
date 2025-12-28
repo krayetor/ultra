@@ -1,4 +1,4 @@
-# Cinem8 🎬
+# Cinem8
 
 ![Cinem8 Banner](public/og-image.jpg)
 
@@ -9,7 +9,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 
-## 🚀 Live Demo
+## Live Demo
 
 **[View Live Demo](https://krayetor-cinem8.vercel.app/)**
 
@@ -32,7 +32,7 @@ It leverages the **TMDB API** to provide real-time access to millions of movies,
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology | Purpose |
 | :--- | :--- | :--- |

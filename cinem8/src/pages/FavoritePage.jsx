@@ -21,9 +21,9 @@ const FavoritesPage = ({ onMovieSelect }) => {
     return (
         <div className="w-full min-h-screen pt-20 flex flex-col items-center justify-center">
            
-            <div className="w-full max-w-6xl px-4">
-                <h2 className="text-2xl font-semibold mb-10 text-slate-800 dark:text-slate-100 border-l-4 border-violet-600 duration-300">
-                    My Collection <span className="text-sm font-normal text-slate-500 ml-2 duration-300">({favorites.length} items)</span>
+            <div className="w-full max-w-6xl mx-auto px-4">
+                <h2 className="text-2xl font-semibold pl-2 mb-10 text-slate-800 dark:text-slate-100 border-l-4 border-violet-600 duration-300">
+                    My Collection <span className="text-sm font-normal text-slate-500 duration-300">({favorites.length} items)</span>
                 </h2>
 
                 <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center items-center w-full pt-4">

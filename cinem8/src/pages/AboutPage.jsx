@@ -4,7 +4,7 @@ const AboutPage = () => {
     return (
         <div className="w-full min-h-screen flex justify-center py-12 md:py-20">
             
-            <div className="w-full max-w-6xl mx-auto px-4">
+            <div className="w-full max-w-6xl mx-auto px-2">
 
                 <div className="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-xl border border-gray-100 dark:border-slate-700 p-8 md:p-12 space-y-12 transition-colors duration-300">
 

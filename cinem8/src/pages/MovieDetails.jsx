@@ -128,7 +128,7 @@ const MovieDetails = () => {
     const favorited = isFavorite(movie.id);
 
     return (
-        <div className="w-full mx-auto pl-4 pt-10 max-w-7xl min-h-screen bg-slate-50 dark:bg-slate-900 flex justify-items-center justify-center items-center pb-20 transition-colors duration-300">
+        <div className="w-full mx-auto pt-10 max-w-7xl min-h-screen bg-slate-50 dark:bg-slate-900 flex justify-items-center justify-center items-center pb-20 transition-colors duration-300">
 
             <div className="w-full max-w-7xl px-4 md:px-8 transition-colors duration-300">
 
@@ -141,7 +141,7 @@ const MovieDetails = () => {
                 <div className="flex flex-col items-center lg:flex-row lg:items-start gap-8">
 
                     {/* left: Poster section */}
-                    <div className="relative w-[400px] h-[400px] shrink-0">
+                    <div className="relative w-full max-w-sm md:max-w-[550px] h-[360px] shrink-0">
                         <div className="aspect-2/3 w-full h-full rounded-2xl overflow-hidden bg-slate-200 dark:bg-slate-800 shadow-2xl">
                             <ImageWithFallback
                                 src={movie.poster_path ? `https://image.tmdb.org/t/p/w780${movie.poster_path}` : null}
@@ -166,7 +166,7 @@ const MovieDetails = () => {
                 
 
                     {/* right side: details */}
-                    <div className="flex-1 w-full max-w-[550px] lg:max-w-none flex flex-col space-y-8 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl transition-colors duration-300">
+                    <div className="flex-1 w-full max-w-sm md:max-w-[550px] lg:max-w-none flex flex-col space-y-8 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-xl transition-colors duration-300">
                         
                         {/* title & Stats */}
                         <div className="pb-2 border-b border-gray-100 dark:border-slate-700">

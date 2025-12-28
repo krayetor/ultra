@@ -1,102 +1,125 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useTypewriter from "../hooks/useTypewriter";
 
-const MobileMenu = ({ isOpen, onClose, isDarkMode, toggleTheme, searchTerm, setSearchTerm, onSearch }) => {
+const MobileMenu = ({ isOpen, onClose, toggleTheme, isDarkMode, searchTerm, setSearchTerm, onSearch }) => {
 
-    const handleSearchSubmit = () => {
+    const navigate = useNavigate();
+
+    const typeWriterText = useTypewriter([
+        'Search movies...',
+        'Search actors...',
+        'Search genres...',
+        'Search keywords...'
+    ])
+
+    if (!isOpen) return null;
+
+    const handleSearch = () => {
         onSearch(searchTerm);
         onClose();
     };
 
-    const handleKeyDown = (e) => {
-        if(e.key === 'Enter') handleSearchSubmit();
+    const handleNavigation = (path) => {
+        navigate(path);
+        onClose();
     }
 
-  return (
-    <>
+  return createPortal(
+    <div className="fixed inset-0 z-60 flex items-center justify-center px-4">
+        
         {/* backdrop */}
         <div 
-            className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-90 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             onClick={onClose}
-        />
+        ></div>
 
-        {/* sidebar */}
-        <div
-            className={`fixed top-24 left-1/2 -translate-1/2 w-[90%] max-w-sm bg-white dark:bg-slate-900 rounded-[30px] shadow-2xl z-100 overflow-hidden border border-gray-100 dark:border-slate-800 transition-all duration-300 ease-out origin-top
-                ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4 pointer-events-none'}
-                bg-white dark:bg-slate-900 border-l border-gray-200 dark:border-slate-800`}
-        >
-            <div className="gap-4 p-6 flex flex-col space-y-6">
+        {/* menu card */}
+        <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-4xl shadow-2xl p-6 animate-in zoom-in-95 fade-in duration-200">
 
-                {/* header of menu */}
-                <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">
-                    <span className="text-lg font-bold tracking-widest uppercase text-slate dark:text-white">
+            {/* close button top right */}
+            <button 
+                onClick={onClose}
+                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+            >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <div className="flex flex-col gap-6 mt-2">
+
+                {/* header text */}
+                <div className="text-center">
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-widest uppercase">
                         Menu
-                    </span>
+                    </h2>
+                </div>
+
+                {/* mobile search bar */}
+                <div className="relative w-full">
+                <input
+                    type="text"
+                    placeholder={typeWriterText}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => e.key  === 'Enter' && handleSearch()}
+                    className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl py-3 pl-4 pr-12 focus:ring-2 focus:ring-violet-600 transition-all border border-transparent outline-none"
+                />
+
                     <button 
-                        onClick={onClose} 
-                        className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-500 hover:bg-rose-50 dark:hover:text-rose-400 dark:hover:bg-slate-700 transition-colors"
+                        onClick={handleSearch} 
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-violet-600 p-1"
                     >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </button>
                 </div>
 
-                {/* mobile search bar */}
-                <div className="placeholder-slate-500 text-sm font-medium mb-8 flex items-center bg-slate-100 dark:bg-slate-800 rounded-xl px-4 py-3 ring-1 ring-transparent focus-within:ring-violet-600 transition-all">
-                    <input
-                        type="text"
-                        className="bg-transparent w-full outline-none text-slate-900 dark:text-white placeholder-slate-500 text-base"
-                        placeholder={useTypewriter(['Search movies...', 'Search actors...','Search genres...', 'Search keywords...'])}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
+                <div className="h-px bg-gray-100 dark:bg-slate-800"></div>
 
-                    <button onClick={handleSearchSubmit} className="text-violet-600 ml-2">
-                        🔍
-                    </button>
-                </div>
-
-                <nav className="flex flex-col space-y-4">
-                    <Link 
-                        to="/" 
-                        onClick={onClose} 
-                        className="px-4 py-3 rounded-xl text-lg font-medium text-slate-700 dark:text-slate-200 hover:bg-violet-50 dark:hover:bg-slate-800 hover:text-violet-600 transition-colors"
+                {/* links */}
+                <nav className="flex flex-col gap-2 text-center">
+                    <button
+                        onClick={() => handleNavigation("/")} 
+                        className="text-lg font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 py-3 rounded-xl transition-colors"
                     >
                         Home
-                    </Link>
-                    <Link 
-                        to="/about" 
-                        onClick={onClose} 
-                        className="px-4 py-3 rounded-xl text-lg font-medium text-slate-700 dark:text-slate-200 hover:bg-violet-50 dark:hover:bg-slate-800 hover:text-violet-600 transition-colors"
+                    </button>
+                    <button 
+                        onClick={() => handleNavigation("/about")} 
+                        className="text-lg font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 py-3 rounded-xl transition-colors"
                     >
                         About
-                    </Link>
-                    <Link 
-                        to="/favorites" 
-                        onClick={onClose} 
-                        className="px-4 py-3 rounded-xl text-lg font-medium text-slate-700 dark:text-slate-200 hover:bg-violet-50 dark:hover:bg-slate-800 hover:text-violet-600 transition-colors"
+                    </button>
+                    <button 
+                        onClick={() => handleNavigation("/favorites")}
+                        className="text-lg font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 py-3 rounded-xl transition-colors"
                     >
                         Favorite
-                    </Link>
+                    </button>
                 </nav>
 
+                <div className="h-px bg-gray-100 dark:bg-slate-800"></div>
+
                 {/* theme */}
-                <div className="mt-auto pt-8 border-t border-gray-100 dark:border-slate-800">
-                    <button
-                        onClick={toggleTheme}
-                        className="flex items-center justify-center w-full space-x-3 py-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-white font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                    >
-                        <span>{isDarkMode ? '🌙' : '☀️' }</span>
-                        <span>{isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode Dark'}</span>
-                    </button>
-                </div>
+                
+                <button
+                    onClick={toggleTheme}
+                    className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold transition-transform active:scale-95"
+                >
+                    {isDarkMode ? (
+                        <><span>Switch to Light</span> ☀️</>
+                    ) : (
+                        <><span>Switch to Dark</span> 🌙</>
+                    )} 
+                </button>
             </div>
         </div>
-    </>
+    </div>,
+    document.body
   );
 };
 

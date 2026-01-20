@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+
+:root {
+  --glow-color: rgba(14, 165, 233, 0.15);
+}
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  --webkit-font-smoothing: antialiased;
+  --moz-osx-font-smoothing: grayscale;
+  @apply bg-[#fcfcfc] text-black transition-colors duration-500;
+}
+
+.dark body {
+  @apply bg-[#050505] text-white;
+}
+
+.backdrop-blur-md, .backdrop-blur-2xl {
+  will-change: backdrop-filter;
+}
+
+.branding-thin {
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.input-focus-glow:focus-within {
+  box-shadow: 0 0 20px var(--glow-color);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+@keyframes sync-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  width: 1.5px;
+  height: 1.1em;
+  background-color: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1px;
+}
+
+.animate-sync-blink {
+  animation: sync-blink 1s step-end infinite;
+}
+
+.glass-border-light {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.glass-border-dark {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
